@@ -53,24 +53,24 @@ void Camera::camRight()
 // rotate the view
 void Camera::camLookLeft()
 {
-	glm::mat4 rotate = glm::rotate(glm::mat4(), -look_move, vec3((float)0, eye_y, (float)0));
+	glm::mat4 rotate = glm::rotate(glm::mat4(), -look_move, vec3((float)0, (float)1, (float)0));
 	view = rotate * view;
 }
 void Camera::camLookRight()
 {
-	glm::mat4 rotate = glm::rotate(glm::mat4(), look_move, vec3((float)0, eye_y, (float)0));
+	glm::mat4 rotate = glm::rotate(glm::mat4(), look_move, vec3((float)0, (float)1, (float)0));
 	view = rotate * view;
 }
 
 void Camera::camLookUp()
 {
-	glm::mat4 rotate = glm::rotate(glm::mat4(), -look_move, vec3(eye_x, (float)0, (float)0));
+	glm::mat4 rotate = glm::rotate(glm::mat4(), -look_move, vec3((float)1, (float)0, (float)0));
 	view = rotate * view;
 }
 
 void Camera::camLookDown()
 {
-	glm::mat4 rotate = glm::rotate(glm::mat4(), look_move, vec3(eye_x, (float)0, (float)0));
+	glm::mat4 rotate = glm::rotate(glm::mat4(), look_move, vec3((float)1, (float)0, (float)0));
 	view = rotate * view;
 }
 
