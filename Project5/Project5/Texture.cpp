@@ -8,6 +8,7 @@ Texture::Texture() :
 	_height(0)
 {
 	glGenTextures(1, &_id);
+	//cout << "Tex ID: " << _id << endl;
 }
 
 Texture::~Texture()

@@ -2,9 +2,11 @@
 
 #include "DirectionalLight.h"
 
-#include "vmath.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
-
+using glm::vec3;
 
 class PointLight : public DirectionalLight
 {
@@ -15,16 +17,16 @@ public:
 
 	void render(Shader);
 
-	void setEyeDirection(vmath::vec3);
-	void setPosition(vmath::vec3);
+	void setEyeDirection(vec3);
+	void setPosition(vec3);
 	void setConstantAttenuation(float);
 	void setLinearAttenuation(float);
 	void setQuadraticAttenuation(float);
 
 
 private:
-	vmath::vec3 _eyeDirection;
-	vmath::vec3 _position;
+	vec3 _eyeDirection;
+	vec3 _position;
 	float _constantAttenuation;
 	float _linearAttenuation;
 	float _quadraticAttenuation;

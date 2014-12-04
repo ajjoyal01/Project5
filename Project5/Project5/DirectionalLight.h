@@ -11,8 +11,11 @@
 
 #include "Shader.h"
 #include "Color.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
-#include "vmath.h"
+using glm::vec3;
 
 class DirectionalLight
 {
@@ -25,7 +28,7 @@ public:
 
 	void setAmbient(Color color);
 	void setColor(Color color);
-	void setDirection(vmath::vec3);
+	void setDirection(vec3);
 	void setStrength(float strength);
 	void setShininess(float shininess);
 	void toggle();
@@ -37,8 +40,8 @@ protected:
 
 	Color _ambient;
 	Color _color; // determines the color of the light
-	vmath::vec3 _direction;
-	vmath::vec3 _halfVector; // not sure what this does
+	vec3 _direction;
+	vec3 _halfVector; // not sure what this does
 	float _shininess;
 	float _strength;
 	bool _on;

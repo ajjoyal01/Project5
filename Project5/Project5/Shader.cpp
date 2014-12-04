@@ -20,12 +20,14 @@ void Shader::init(std::string vertPath, std::string fragPath)
 
 	// set shader program
 	_id = LoadShaders(shaders);
+	//cout << _id << endl;
 	glUseProgram(_id);
 }
 
 void Shader::use()
 {
 	glUseProgram(_id);
+	//glLinkProgram(_id);
 }
 
 void Shader::unuse()

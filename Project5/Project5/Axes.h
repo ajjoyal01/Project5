@@ -1,5 +1,6 @@
 /*
 	Axes.h
+	Group: Andrew Joyal, Hunter Ripsom-Gardiner, Connor Williams
 	Author: Andrew Joyal, and Gregory Venezia
 	Date: 10/24/2014
 	Course: CSC5210
@@ -17,8 +18,9 @@
 #include "Object.h"
 #include "Shader.h"
 #include "Color.h"
-#include "vec.h"
-#include "glm/glm.hpp"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #define NUM_AXES 3			// number of axes (x,y,z)
 #define NUM_VERTICES 2		// number of vertices per axis
@@ -31,7 +33,7 @@ enum { AXES_BUFFER, NUM_AXES_BUFFERS };
 //---------------------------------------------------------
 
 using namespace std;
-//using vmath::mat4;
+using glm::vec4;
 
 class Axes
 {

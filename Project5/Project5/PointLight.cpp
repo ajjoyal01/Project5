@@ -4,8 +4,8 @@
 PointLight::PointLight()
 {
 	DirectionalLight::DirectionalLight();
-	_eyeDirection = vmath::vec3(0, 0, 0);
-	_position = vmath::vec3(0, 1, 0);
+	_eyeDirection = vec3(0, 0, 0);
+	_position = vec3(0, 1, 0);
 	_constantAttenuation = 2.0;
 	_linearAttenuation = 2.0;
 	_quadraticAttenuation = 0.5;
@@ -17,11 +17,11 @@ PointLight::~PointLight()
 }
 
 
-void PointLight::setEyeDirection(vmath::vec3 direction)
+void PointLight::setEyeDirection(vec3 direction)
 {
 	_eyeDirection = direction;
 }
-void PointLight::setPosition(vmath::vec3 position)
+void PointLight::setPosition(vec3 position)
 {
 	_position = position;
 }

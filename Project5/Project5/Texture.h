@@ -1,3 +1,12 @@
+/*
+	Texture.h
+	Group: Andrew Joyal, Hunter Ripsom-Gardiner, Connor Williams
+	Authors: Greg Venezia
+	Date: 10/24/2014
+	Course: CSC5210
+	Description: Texture
+*/
+
 #pragma once
 
 #include <GL/glew.h>
@@ -9,7 +18,7 @@
 #include "vgl.h"
 
 #include "lodepng.h"
-
+using namespace std;
 class Texture
 {
 	friend class TextureCache;

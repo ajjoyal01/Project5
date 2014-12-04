@@ -1,8 +1,11 @@
 //------------------------------------------------------------------------------------
-// Andrew Joyal and Greg Venezia
+// Andrew Joyal, Hunter Ripsom-Gardiner, Connor Williams
+// All authors active in developing program concept and program flow, as well as decisions
+//		regarding visuals and functionality of final product.
 // Project 5
-// 11/10/14
+// 11/24/14
 // Description: Block Building
+// Above and Beyond: Sound on creation of blocks
 //------------------------------------------------------------------------------------
 
 
@@ -69,8 +72,6 @@ int main(int argc, char* argv[])
 	{
 		fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
 	}
-
-
 
 	// initialize the world
 	world.init();

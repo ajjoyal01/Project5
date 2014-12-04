@@ -18,9 +18,6 @@
     <ClCompile Include="Axes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LoadShaders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -48,18 +45,15 @@
     <ClCompile Include="World.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DirectionalLight.cpp">
+    <ClCompile Include="Light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PointLight.cpp">
+    <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Axes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Color.h">
@@ -86,30 +80,24 @@
     <ClInclude Include="World.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DirectionalLight.h">
+    <ClInclude Include="Light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PointLight.h">
+    <ClInclude Include="Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\DirectionalLight.frag">
+    <None Include="Shaders\vertices.vert">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Shaders\DirectionalLight.vert">
+    <None Include="Shaders\fragments.frag">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Shaders\PointLight.frag">
+    <None Include="Shaders\shadowMap.frag">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Shaders\PointLight.vert">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Shaders\Room.frag">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Shaders\Room.vert">
+    <None Include="Shaders\shadowMap.vert">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

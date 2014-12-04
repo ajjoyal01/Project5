@@ -3,7 +3,7 @@
 
 Model::Model()
 {
-	color = { 1, 1, 1, 1 };
+	
 }
 
 Model::~Model()
@@ -43,6 +43,7 @@ void Model::draw(Shader shader)
 	glVertexAttrib4fv(vNormalMatrix1, &nTransform[1][0]);
 	glVertexAttrib4fv(vNormalMatrix2, &nTransform[2][0]);
 
+
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 
 	deactivateTextures();
@@ -53,9 +54,9 @@ void Model::draw(Shader shader)
 void Model::scale(float scaleFactor)
 {
 	// Translate to center
-	vmath::mat4 translate1 = vmath::translate(0 - center.x, 0 - center.y, 0 - center.z);
-	vmath::mat4 scale = vmath::scale(scaleFactor);
-	vmath::mat4 translate2 = vmath::translate(center.x, center.y, center.z);
+	mat4 translate1 = glm::translate(mat4(),vec3(0 - center.x, 0 - center.y, 0 - center.z));
+	mat4 scale = glm::scale(mat4(), vec3(scaleFactor, scaleFactor, scaleFactor));
+	mat4 translate2 = glm::translate(mat4(), vec3(center.x,center.y,center.z));
 
 	transform = (translate2 * scale * translate1) * transform;
 	updateCenter();
@@ -64,19 +65,19 @@ void Model::scale(float scaleFactor)
 
 void Model::translate(float x, float y, float z)
 {
-	vmath::mat4 translate = vmath::translate(x, y, z);
+	mat4 translate = glm::translate(mat4(),vec3(x, y, z));
 	transform = translate * transform;
 
 	updateCenter();
 	updateNormalMat();
 }
 
-void Model::rotate(float angle, vmath::vec3 inAxis)
+void Model::rotate(float angle, vec3 inAxis)
 {
 	// Translate to center
-	vmath::mat4 translate1 = vmath::translate(0 - center.x, 0 - center.y, 0 - center.z);
-	vmath::mat4 rotate = vmath::rotate(angle, inAxis);
-	vmath::mat4 translate2 = vmath::translate(center.x, center.y, center.z);
+	mat4 translate1 = glm::translate(mat4(), vec3(0 - center.x, 0 - center.y, 0 - center.z));
+	mat4 rotate = glm::rotate(mat4(), angle, inAxis);
+	mat4 translate2 = glm::translate(mat4(), vec3(center.x, center.y, center.z));
 
 	transform = (translate2 * rotate * translate1) * transform;
 	updateCenter();
@@ -94,6 +95,7 @@ void Model::updateCenter()
 void Model::init(string filename)
 {
 	loadObject(filename);
+	normalizeNormals();
 
 	// create Vertex Array
 	glGenVertexArrays(1, VAOs);
@@ -104,14 +106,14 @@ void Model::init(string filename)
 
 	glEnableVertexAttribArray(vPosition);
 	glBindBuffer(GL_ARRAY_BUFFER, Buffers[POS_BUFFER]);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vmath::vec4), &vertices[0], GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vec4), &vertices[0], GL_DYNAMIC_DRAW);
 	glVertexAttribPointer(vPosition, 4, GL_FLOAT, GL_FALSE, 0, 0);
 
 	if (texels.size() > 0)
 	{
 		glEnableVertexAttribArray(vTexel);
 		glBindBuffer(GL_ARRAY_BUFFER, Buffers[TEXEL_BUFFER]);
-		glBufferData(GL_ARRAY_BUFFER, texels.size() * sizeof(vmath::vec2), &texels[0], GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, texels.size() * sizeof(vec2), &texels[0], GL_DYNAMIC_DRAW);
 		glVertexAttribPointer(vTexel, 2, GL_FLOAT, GL_FALSE, 0, 0);
 	}
 
@@ -119,7 +121,7 @@ void Model::init(string filename)
 	{
 		glEnableVertexAttribArray(vNormal);
 		glBindBuffer(GL_ARRAY_BUFFER, Buffers[NORMAL_BUFFER]);
-		glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(vmath::vec3), &normals[0], GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(vec3), &normals[0], GL_DYNAMIC_DRAW);
 		glVertexAttribPointer(vNormal, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	}
 
@@ -131,12 +133,14 @@ void Model::init(string filename)
 		glVertexAttribPointer(vTexture, 1, GL_INT, GL_FALSE, 0, 0);
 	}
 
-	transform = vmath::mat4::identity();
+	transform = mat4();
 	updateNormalMat();
 	center = vec4(0.0, 0.0, 0.0, 1.0);
 
 	isTransformed = 1;
 	calculateDimentions();
+
+	color = { 1, 1, 1, 1 };
 }
 
 // Gets vertex, texel, normal data
@@ -144,9 +148,9 @@ void Model::loadObject(string filename)
 {
 	name = filename;
 
-	vector<vmath::vec4> in_vertices;
-	vector<vmath::vec3> in_normals;
-	vector<vmath::vec2> in_texels;
+	vector<vec4> in_vertices;
+	vector<vec3> in_normals;
+	vector<vec2> in_texels;
 	vector<string> in_materials;
 
 	bool isTexel = false;
@@ -183,13 +187,13 @@ void Model::loadObject(string filename)
 			if (line.substr(0, 2) == "v ")
 			{
 				istringstream s(line.substr(2));
-				vmath::vec4 v;
+				vec4 v;
 				float x, y, z, w;
 				s >> x;
 				s >> y;
 				s >> z;
 				w = 1.0f;
-				v = vmath::vec4(x, y, z, w);
+				v = vec4(x, y, z, w);
 				in_vertices.push_back(v);
 			}
 			//-----------------------------------
@@ -202,12 +206,12 @@ void Model::loadObject(string filename)
 				{
 					isTexel = true;
 					istringstream s(line.substr(3));
-					vmath::vec2 v;
+					vec2 v;
 					float x, y;
 					s >> x;
 					s >> y;
 					y = 1 - y;
-					v = vmath::vec2(x, y);
+					v = vec2(x, y);
 					in_texels.push_back(v);
 					//-----------------------------------
 				}
@@ -220,12 +224,12 @@ void Model::loadObject(string filename)
 					{
 						isNormal = true;
 						istringstream s(line.substr(3));
-						vmath::vec3 v;
+						vec3 v;
 						float x, y, z;
 						s >> x;
 						s >> y;
 						s >> z;
-						v = vmath::vec3(x, y, z);
+						v = vec3(x, y, z);
 						in_normals.push_back(v);
 						//-----------------------------------
 					}
@@ -484,6 +488,86 @@ void Model::loadObject(string filename)
 	*/
 }
 
+void Model::normalizeNormals()
+{
+	vec4 tempVert;
+	vector<vec3> tempNorms;
+	vector<bool> checked;
+	vector<bool> normalMarked;
+
+	for (int i = 0; i < vertices.size(); i++)
+	{
+		checked.push_back(false);
+		normalMarked.push_back(false);
+	}
+
+	// for every vertex
+	for (int i = 0; i < vertices.size(); i++)
+	{
+		// if already checked, continue to next iteration
+		if (checked.at(i) == true)
+			continue;
+
+		// set a temp vert for the current vertex we are updating
+		tempVert = vertices.at(i);
+
+		// push the corresponding vertex to a temp array
+		tempNorms.push_back(normals.at(i));
+		normalMarked.at(i) = true;
+
+		// set the vertex already checked
+		checked.at(i) = true;
+
+		//cout << "Vertex " << i << endl;
+		// for every vertex matching the coordinates of the selected vertex
+		for (int j = i + 1; j < vertices.size(); j++)
+		{
+			if (vertices.at(j) == tempVert)
+			{
+				bool add = true;
+				for (int k = 0; k < tempNorms.size(); k++)
+				{
+					if (normals.at(j) == tempNorms.at(k))
+						add = false;
+				}
+
+				if (add == true)
+					tempNorms.push_back(normals.at(j));
+
+				normalMarked.at(j) = true;
+				checked.at(j) = true;
+			}
+		}
+
+		vec3 calcNormal = vec3(0,0,0);
+
+		for (int j = 0; j < tempNorms.size(); j++)
+		{
+			calcNormal += tempNorms.at(j);
+		}
+
+		calcNormal /= tempNorms.size();
+		//cout << "( " << calcNormal.x << " , " << calcNormal.y << " , " << calcNormal.z << " )" << endl;
+		for (int j = 0; j < normals.size(); j++)
+		{
+			if (normalMarked.at(j) == true)
+			{
+				normals.at(j) = calcNormal;
+				normalMarked.at(j) = false;
+			}
+		}
+
+		tempNorms.clear();
+	}
+
+	/*
+	for (int i = 0; i < normals.size(); i++)
+	{
+		cout << "( " << normals.at(i).x << " , " << normals.at(i).y << " , " << normals.at(i).z << " )" << endl;
+	}*/
+
+}
+
 void Model::calculateDimentions()
 {
 	max_x = 0;
@@ -564,7 +648,7 @@ void Model::deactivateTextures()
 		texture->deactivate();
 }
 
-void Model::updateTransform(vmath::mat4 inTransform)
+void Model::updateTransform(mat4 inTransform)
 {
 	transform = inTransform * transform;
 	updateCenter();
@@ -578,15 +662,19 @@ void Model::setColor(Color inColor)
 
 void Model::updateNormalMat()
 {
+	//cout << "Update Normal\n";
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
 		{
 			nTransform[j][i] = transform[j][i];
+			//cout << nTransform[j][i] << "\t";
 		}
+		//cout << endl;
 	}
+	//cout << endl;
 
-	nTransform = glm::transpose(glm::inverse(nTransform));
+	nTransform =glm::transpose(glm::inverse(nTransform));
 }
 
 float Model::getMaxY()

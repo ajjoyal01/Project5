@@ -1,3 +1,13 @@
+/*
+	Model.h
+	Group: Andrew Joyal, Hunter Ripsom-Gardiner, Connor Williams
+	Authors: Andrew Joyal
+	Comments: most code recycled from project 4
+	Date: 10/24/2014
+	Course: CSC5210
+	Description: Model
+*/
+
 #pragma once
 
 #include <GL/glew.h>
@@ -10,17 +20,21 @@
 #include <sstream>
 #include <algorithm>
 
-#include "glm/glm.hpp"
-
 #include "vgl.h"
-#include "vmath.h"
-#include "vec.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include "Shader.h"
 #include "Texture.h"
 #include "Color.h"
 #include "Object.h"
 
-using namespace std;
+using glm::mat4;
+using glm::vec2;
+using glm::vec3;
+using glm::vec4;
+
+using std::cout;
 
 class Model : public Object
 {
@@ -33,6 +47,7 @@ public:
 	void draw(Shader);
 	void init(string);
 	void loadObject(string);
+	void normalizeNormals();
 
 	void calculateDimentions();
 	float getWidth();
@@ -47,10 +62,10 @@ public:
 
 	void scale(float);
 	void translate(float, float, float);
-	void rotate(float, vmath::vec3);
+	void rotate(float, vec3);
 	void updateCenter();
 
-	void updateTransform(vmath::mat4);
+	void updateTransform(mat4);
 	void updateNormalMat();
 
 	float getMaxY();
@@ -60,9 +75,9 @@ public:
 
 private:
 
-	vector<vmath::vec4> vertices;
-	vector<vmath::vec2> texels;
-	vector<vmath::vec3> normals;
+	vector<vec4> vertices;
+	vector<vec2> texels;
+	vector<vec3> normals;
 	vector<int> textureIDs;
 	Texture* texture;
 

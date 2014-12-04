@@ -6,8 +6,8 @@ DirectionalLight::DirectionalLight() : _on(false)
 	_ambient.red = 0.0;
 	_ambient.green = 0.0;
 	_ambient.blue = 0.0;
-	_direction = vmath::vec3(1.0f, -1.0, 1.0);
-	_halfVector = vmath::vec3(0.0f, 0.0f, 0.0f);
+	_direction = vec3(1.0f, -1.0, 1.0);
+	_halfVector = vec3(0.0f, 0.0f, 0.0f);
 	_strength = 1.0;
 	_shininess = 1.0;
 	_color.red = 1.0;
@@ -30,7 +30,7 @@ void DirectionalLight::setColor(Color color)
 	_color = color;
 }
 
-void DirectionalLight::setDirection(vmath::vec3 direction)
+void DirectionalLight::setDirection(vec3 direction)
 {
 	_direction = direction;
 }

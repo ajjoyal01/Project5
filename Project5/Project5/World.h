@@ -1,3 +1,12 @@
+/*
+	World.h
+	Group: Andrew Joyal, Hunter Ripsom-Gardiner, Connor Williams
+	Authors: Andrew Joyal, Hunter Ripsom-Gardiner, Connor Williams, all took part in collaborating on functionality
+	Date: 10/24/2014
+	Course: CSC5210
+	Description: World
+*/
+
 #pragma once
 
 #include <GL/glew.h>
@@ -6,6 +15,11 @@
 #include <iostream>
 #include <ctime>
 #include <stdlib.h>
+#include <Windows.h>
+#include <queue>
+#include <Windows.h>
+#include <MMSystem.h>
+#include <thread>
 
 #include "LoadShaders.h"
 #include "vgl.h"
@@ -15,17 +29,19 @@
 #include "Shader.h"
 #include "Axes.h"
 #include "Model.h"
-#include "DirectionalLight.h"
-#include "PointLight.h"
+#include "Light.h"
 #include "Camera.h"
-//#include "Game.h"
-//#include "Room.h"
+#include "ShadowMap.h"
 
-#define NUM_TEXTURES 3 // cards and table
+#define NUM_TEXTURES 2 // cube and ground
 #define CAM_MOVE .1
 #define NUM_OBJECTS 4
+#define NUM_LIGHTS 3
+#define DIRECTIONAL 0
+#define FLASHLIGHT 1
+#define AMBIENT 2
 
-using vmath::mat4;
+using glm::mat4;
 
 static class World
 {
@@ -39,18 +55,32 @@ public:
 	void keyPress(unsigned char, int, int);
 	void arrowInput(int, int, int);
 	void draw();							// draw function for entire World
+	void drawScene(Shader);
 	void initValues();						// initializes values
 	void setupTextures();
-	
+	void renderShadowMaps();
+
 	void idleFunc();
 
+	void createBlock();
+	void animateBlockCreate();
+
 private:
-	
+
 	Shader shader;
-	PointLight light;
+	Shader shadowMapShader;
+	
+	vec3 ambientLight;
+	vector<Light*> lights;
+	bool lighting_on;
+	
+	vector<Model*> cubes;
+
+	ShadowMap shadowMap;
+	bool shadow_maps_on;
 
 	std::string textureFilenames[NUM_TEXTURES];
-	Texture * textures[NUM_TEXTURES];
+	Texture* textures[NUM_TEXTURES];
 
 	Camera cam;
 
@@ -62,12 +92,16 @@ private:
 	//--------------------------------
 	float lightStrength;
 	float lightShinniness;
-	vmath::vec3 lightDirection;
-
-	Color directionalColor;
-	Color ambientColor;
 	//--------------------------------
 
 	Model terrain;
+	Model shape;
+
+	
+	queue<int> animateQueue;
+
+	int animate_amount;
+	float animate_factor;
+	float cube_travel_dist;
 };
 

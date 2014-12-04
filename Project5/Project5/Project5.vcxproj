@@ -70,13 +70,12 @@
   <ItemGroup>
     <ClCompile Include="Axes.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="DirectionalLight.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="LoadShaders.cpp" />
     <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Object.cpp" />
-    <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShadowMap.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -86,23 +85,20 @@
     <ClInclude Include="Axes.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Color.h" />
-    <ClInclude Include="DirectionalLight.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="lodepng.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Object.h" />
-    <ClInclude Include="PointLight.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShadowMap.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\DirectionalLight.frag" />
-    <None Include="Shaders\DirectionalLight.vert" />
-    <None Include="Shaders\PointLight.frag" />
-    <None Include="Shaders\PointLight.vert" />
-    <None Include="Shaders\Room.frag" />
-    <None Include="Shaders\Room.vert" />
+    <None Include="Shaders\shadowMap.frag" />
+    <None Include="Shaders\shadowMap.vert" />
+    <None Include="Shaders\fragments.frag" />
+    <None Include="Shaders\vertices.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
